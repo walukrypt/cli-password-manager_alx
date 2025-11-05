@@ -48,12 +48,3 @@ python3 -m src.main add <service> <username> <password>
 ```bash
 python3 -m src.main get <service>
 ```
-
-## AI Usage
-
-This project was developed with the assistance of an AI-powered coding assistant. The AI was used for the following tasks:
-
-*   **Scaffolding boilerplate or logic:** The AI was used to generate the initial CLI structure using `click` and to provide examples for using the `cryptography` and `sqlite3` libraries.
-*   **Writing tests:** The AI was used to generate unit tests for the cryptography and database modules.
-*   **Generating commit messages:** The AI was used to generate the commit message for the initial commit.
-*   **Generating documentation:** The AI was used to generate the initial `README.md` file.
