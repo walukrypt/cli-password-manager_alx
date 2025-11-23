@@ -9,7 +9,6 @@ from src import database
 @click.group()
 def cli():
     """A simple command-line password manager."""
-    pass
 
 @cli.command()
 def init():
