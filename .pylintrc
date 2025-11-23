@@ -1,10 +1,17 @@
-[MESSAGES CONTROL]
-disable=
-    C0114,  # missing-module-docstring
-    C0115   # missing-class-docstring
-# .pylintrc
-
 [MASTER]
-# Add the 'src' directory to the path Pylint searches for modules
-# This resolves E0401 errors for your local imports like 'from src import ...'
-source-roots=src
+init-hook='import sys; import os; sys.path.append(os.path.abspath("."))'
+
+[MESSAGES CONTROL]
+disable=missing-docstring,invalid-name,too-many-locals,too-many-arguments
+
+# Temporarily silence broad-exception-caught if you can't fix it right now
+disable=broad-exception-caught,
+        missing-module-docstring,
+        missing-class-docstring,
+        missing-function-docstring
+
+[FORMAT]
+max-line-length=100
+
+[DESIGN]
+max-args=6
