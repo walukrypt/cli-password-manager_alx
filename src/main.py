@@ -38,7 +38,6 @@ def add(service, username, password):
         return
 
     master_password = click.prompt("Please enter your master password", hide_input=True)
-    
     conn = sqlite3.connect(database.DB_FILE)
     hashed_password, salt = database.get_master_password(conn)
 
