@@ -1,0 +1,6 @@
+# .pylintrc
+
+[MASTER]
+# Add the 'src' directory to the path Pylint searches for modules
+# This resolves E0401 errors for your local imports like 'from src import ...'
+source-roots=src
