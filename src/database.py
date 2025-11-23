@@ -1,6 +1,4 @@
 
-import sqlite3
-
 DB_FILE = "passwords.db"
 
 def create_database(conn):
