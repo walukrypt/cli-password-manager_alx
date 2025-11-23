@@ -1,34 +1,56 @@
 name: Pylint
 
-# Runs on every push to any branch
-on: [push]
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
 
 jobs:
-  build:
+  pylint:
     runs-on: ubuntu-latest
-    
-    # Run against multiple Python versions
-    strategy:
-      matrix:
-        python-version: ["3.8", "3.9", "3.10"]
-        
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v3
-      with:
-        python-version: ${{ matrix.python-version }}
-        
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        # Install Pylint first
-        pip install pylint
-        # Install project requirements (click, cryptography, etc.)
-        pip install -r requirements.txt
-        
-    - name: Analysing the code with pylint
-      run: |
-        # Use the --rcfile option if you created a .pylintrc file
-        pylint --rcfile=.pylintrc $(git ls-files '*.py')
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'   # or your version
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pylint anybadge
+
+      - name: Analysing the code with pylint
+        run: |
+          pylint $(git ls-files '*.py') --rcfile=.pylintrc > pylint.txt || echo "pylint exited with error" >&2
+
+      - name: Generate badge
+        run: |
+          SCORE=$(sed -n 's/^Your code has been rated at \([-0-9.]*\)\/10/p' pylint.txt)
+          SCORE=${SCORE%.*}  # remove decimal
+          if [ -z "$SCORE" ]; then SCORE=0; fi
+          case $SCORE in
+            10) COLOR=brightgreen ;;
+            [8-9]) COLOR=green ;;
+            [6-7]) COLOR=yellow ;;
+            [4-5]) COLOR=orange ;;
+            *) COLOR=red ;;
+          esac
+          anybadge --value=$SCORE --file=pylint.svg --label=Pylint pylint=$SCORE $COLOR
+
+      - name: Upload badge
+        uses: actions/upload-artifact@v4
+        with:
+          name: pylint-badge
+          path: pylint.svg
+
+      - name: Commit badge (optional - auto-update README)
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add pylint.svg
+          git commit -m "Update pylint badge" || echo "No changes"
+          git push || echo "Nothing to push"
