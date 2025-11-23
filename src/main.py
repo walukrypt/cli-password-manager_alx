@@ -1,8 +1,11 @@
 
 import os
-import click
 import sqlite3
+
+import click
+
 from src import crypto
+
 from src import database
 
 @click.group()
