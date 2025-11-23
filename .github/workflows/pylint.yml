@@ -1,3 +1,8 @@
+- name: Analysing the code with pylint
+      run: |
+        # Use --rcfile to point to the configuration file
+        pylint --rcfile=.pylintrc $(git ls-files '*.py')
+
 name: Pylint
 
 # Runs on every push to any branch
