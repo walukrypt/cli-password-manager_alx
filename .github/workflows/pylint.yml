@@ -1,29 +1,36 @@
-- name: Install dependencies
-        run: pip install -r requirements.txt
-
-      - name: Run Pylint
-        run: pylint $(git ls-files '*.py')
-
 name: Pylint
 
+# Runs on every push to any branch
 on: [push]
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    
+    # Run against multiple Python versions
     strategy:
       matrix:
         python-version: ["3.8", "3.9", "3.10"]
+        
     steps:
     - uses: actions/checkout@v4
+    
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v3
       with:
         python-version: ${{ matrix.python-version }}
+        
+    # --- START OF CUSTOM INSTALLATION ---
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
+        # Install Pylint first
         pip install pylint
+        # Install project requirements (click, cryptography, etc.)
+        pip install -r requirements.txt
+    # --- END OF CUSTOM INSTALLATION ---
+        
     - name: Analysing the code with pylint
       run: |
+        # Use the --rcfile option if you created a .pylintrc file
         pylint $(git ls-files '*.py')
