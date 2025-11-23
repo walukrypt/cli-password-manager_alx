@@ -1,4 +1,5 @@
-[![Pylint](https://github.com/walukrypt/cli-password-manager_alx/actions/workflows/pylint.yml/badge.svg)](https://github.com/walukrypt/cli-password-manager_alx/actions/workflows/pylint.yml)
+[![Pylint](https://github.com/yourusername/your-repo/actions/workflows/pylint.yml/badge.svg)](https://github.com/yourusername/your-repo/actions/workflows/pylint.yml)
+![Pylint score](pylint.svg)
 
 # CLI Password Manager
 
