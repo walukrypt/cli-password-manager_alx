@@ -1,3 +1,5 @@
+[![Pylint](https://github.com/walukrypt/cli-password-manager_alx/actions/workflows/pylint.yml/badge.svg)](https://github.com/walukrypt/cli-password-manager_alx/actions/workflows/pylint.yml)
+
 # CLI Password Manager
 
 A simple command-line password manager built with Python.
