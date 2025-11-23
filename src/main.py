@@ -20,19 +20,14 @@ def init():
 
     click.echo("Initializing the password manager...")
     master_password = click.prompt("Please enter a master password", hide_input=True, confirmation_prompt=True)
-    
     salt = os.urandom(16)
     hashed_password = crypto.hash_password(master_password, salt)
-    
     conn = sqlite3.connect(database.DB_FILE)
     database.create_database(conn)
     database.store_master_password(conn, hashed_password, salt)
     conn.close()
-    
     crypto.generate_key()
-    
     click.echo("Password manager initialized.")
-
 @cli.command()
 @click.argument("service")
 @click.argument("username")
@@ -71,7 +66,6 @@ def get(service):
         return
 
     master_password = click.prompt("Please enter your master password", hide_input=True)
-    
     conn = sqlite3.connect(database.DB_FILE)
     hashed_password, salt = database.get_master_password(conn)
 
